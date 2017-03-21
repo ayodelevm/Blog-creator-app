@@ -4,7 +4,10 @@ var blogForm = document.getElementById('form-edit');
 var blogTitle = document.getElementById('blog-title');
 var txtArea = document.getElementById('text-area');
 var displayArea = document.querySelector('#display');
-var storeItems = JSON.parse(localStorage.getItem('storeItems')) || []
+var editButton = document.querySelector('#editButton')
+var storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
+var postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
+var currentDiv = postKeys.length;
 // var storeItems = []
 
 
@@ -13,37 +16,46 @@ blogForm.addEventListener('submit', function(event){
   event.preventDefault()
   console.log('hello')
   var obj = 
-  {title: '',
+  {title: '', 
   body: ''
   };
   obj.title = blogTitle.value;
   obj.body = txtArea.value;
-  console.log(obj.body.split('\n'));
+
   
   storeItems.push(obj);
   console.log(storeItems);
+
+  var postKey = generateKey();
+  postKeys.push(postKey);
+  localStorage.setItem('postKeys', JSON.stringify(postKeys));
+
   populateDisplay(storeItems, displayArea);
   localStorage.setItem('storeItems', JSON.stringify(storeItems));
   blogTitle.value = '';
   txtArea.value = '';
-  // }
 })
   
 function populateDisplay(display = [], displayParagraph){
-  displayParagraph.innerHTML = display.map(function(i){
-    return `
-
+  
+  for(var i = 0; i < storeItems.length; i++){
+    displayParagraph.innerHTML = 
+  `
+ 
     <h1>
-      ${i.title}
+      ${storeItems[i].title}
     </h1>
     
     <div>
-      ${i.body}
+      ${storeItems[i].body}
     </div>
 
     `
-  }).join('');
+  }
+  
+}
+function  generateKey() {
+  return postKeys.length
 }
 
 populateDisplay(storeItems, displayArea);
-
