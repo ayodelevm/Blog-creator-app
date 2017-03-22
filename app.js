@@ -1,75 +1,94 @@
 // alert('hello');
 
-var blogForm = document.getElementById('form-edit');
-var blogTitle = document.getElementById('blog-title');
-var txtArea = document.getElementById('text-area');
-var displayArea = document.querySelector('#display');
-var ListDisplayArea = document.getElementById('list-display')
-var editButton = document.querySelector('#editButton');
-var submitButton = document.getElementById('form-submit');
-var storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
-var postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
-var currentDiv = postKeys.length;
+const blogForm = document.getElementById('form-edit');
+const blogTitle = document.getElementById('blog-title');
+const txtArea = document.getElementById('text-area');
+const displayArea = document.querySelector('#display');
+const ListDisplayArea = document.getElementById('list-display');
+const editButton = document.querySelector('#editButton');
+const readMore = document.getElementById('read-more');
+const submitButton = document.getElementById('form-submit');
+const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
+const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
+const currentDiv = postKeys.length;
+// const showPost;
 console.log(currentDiv)
-// var storeItems = []
+// const storeItems = []
 
 
 blogForm.addEventListener('submit', function(event){
   // function addToStorage(event) {
   event.preventDefault()
   console.log('hello')
-  var obj = 
+  const obj = 
   {title: '', 
   body: ''
   };
   obj.title = blogTitle.value;
   obj.body = txtArea.value;
 
-  currentDiv = postKeys.length;
+  // currentDiv = postKeys.length;
 
   storeItems.push(obj);
   console.log(storeItems);
 
-  var postKey = generateKey();
+  const postKey = generateKey();
   postKeys.push(postKey);
   localStorage.setItem('postKeys', JSON.stringify(postKeys));
 
- populateListDisplay(storeItems, ListDisplayArea);
+  populateListDisplay(storeItems, ListDisplayArea);
   localStorage.setItem('storeItems', JSON.stringify(storeItems));
   blogTitle.value = '';
   txtArea.value = '';
 })
+
+// readMore.addEventListener('click', function(event){
+//   showPost(0)
+//   // function addToStorage(event) {
+//   event.preventDefault()
+//   console.log('hello')
   
-function populateDisplay(display = [], displayParagraph){
+//   currentDiv = postKeys.length;
+
+
+//   populateDisplay(DisplayArea);
+
+// })
   
-  for(var i = 0; i < display.length; i++){
-    displayParagraph.innerHTML = 
+function populateDisplay(index){
+  display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
+  // for(let i = 0; i < display.length; i++){
+    displayArea.innerHTML = 
   `
  
     <h1>
-      ${storeItems[i].title}
+      ${display.title}
     </h1>
     
     <p>
-      ${storeItems[i].body}
+      ${display.body}
     </p>
-
+    <button id="previousButton">Previous</button>
+    <button id="nextButton">Next</button>
     `
-  }
+  // }
   
 }
 
 
+
+
 function populateListDisplay(display = [], displayParagraph){
-  displayParagraph.innerHTML = display.map(function(item){
+  displayParagraph.innerHTML = display.map(function(item, index){
     return `
     <h1>
       ${item.title}
     </h1>
-    
+    <button id="editButton" onClick='editPost(${index})'>Edit</button>
     <p>
       ${item.body}
     </p>
+    <a href="#" onClick='populateDisplay(${index})' id= "read-more">Read more...</a>
     `
   }).join('');
 }
@@ -81,25 +100,21 @@ function  generateKey() {
 }
 
 
-populateDisplay(storeItems, displayArea);
+populateDisplay(0);
 
 populateListDisplay(storeItems, ListDisplayArea);
 
 
-editButton.addEventListener('click', function(event){
-  event.preventDefault();
-  blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].title;
-  txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].body;
 
-  submitButton.addEventListener('click', function(){
-    event.preventDefault();
 
-    blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].title;
-    txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].body;
 
-  })
+function editPost(index){
+  // event.preventDefault();
+  blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].title;
+  txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
 
-})
+
+}
 
 
 
@@ -156,11 +171,11 @@ function paginatePrevious(pageId){
 
 
   
-function populateDisplay(pageId){
-  const pageData = getPostForPage(pageId);
-  console.dir(pageData)
-  if(pageData){
-    displayArea.innerHTML = getPostHtml(pageData);
-  }
-}
+// function populateDisplay(pageId){
+//   const pageData = getPostForPage(pageId);
+//   console.dir(pageData)
+//   if(pageData){
+//     displayArea.innerHTML = getPostHtml(pageData);
+//   }
+// }
 
