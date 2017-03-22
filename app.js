@@ -10,6 +10,7 @@ const displayArea = document.querySelector('#display');
 const ListDisplayArea = document.getElementById('list-display');
 const editButton = document.querySelector('#editButton');
 const readMore = document.getElementById('read-more');
+const deletePost = document.getElementById('delete-post');
 const submitButton = document.getElementById('form-submit');
 const previousButton = document.getElementById('previous-button');
 const nextButton = document.getElementById('next-button')
@@ -44,7 +45,7 @@ blogCreate.addEventListener('submit', function(event){
   const postKey = generateKey();
   postKeys.push(postKey);
   localStorage.setItem('postKeys', JSON.stringify(postKeys));
-
+ 
   populateListDisplay(storeItems, ListDisplayArea);
   localStorage.setItem('storeItems', JSON.stringify(storeItems));
   blogTitle.value = '';
@@ -66,14 +67,21 @@ blogEdit.addEventListener('submit', function(event){
 
     populateListDisplay(storeItems, ListDisplayArea);
   }
-  
-
-
-
 
 })
 
-  
+
+
+function postDelete(index) {
+  const storageElements = JSON.parse(localStorage.getItem('storeItems'));
+  storageElements.splice(index, 1);
+  localStorage.setItem('storeItems', JSON.stringify(storageElements));
+
+  populateListDisplay(storeItems, ListDisplayArea);
+  window.parent.location = window.parent.location.href;
+}
+
+
 function populateDisplay(index){
 
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
@@ -105,7 +113,10 @@ function populateListDisplay(display = [], displayParagraph){
     <h1>
       ${item.title}
     </h1>
+    <button id="delete-post" onClick='postDelete(${index})'>Delete</button>
+    
     <button id="editButton" onClick='editPost(${index})'>Edit</button>
+    
     <p>
       ${item.body}
     </p>
@@ -173,47 +184,6 @@ function previous(index){
   return
 }
 
-// function generateKey() {
-//   return postKeys.length;
-// }
-
-// function getPostForPage(pageId){
-//   return JSON.parse(fetchFromLocalStorage(pageId));
-// }
-
-// function persistToLocalStorage(key,object){
-//   localStorage.setItem(key, object);
-// }
-
-// function fetchFromLocalStorage(key){
-//   return localStorage.getItem(key);
-// }
-
-// function getPostHtml(postData){
-//    return `
-
-//     <h1>
-//       ${postData.title}
-//     </h1>
-    
-//     <div>
-//       ${postData.body}
-//     </div>
-
-//     `;
-// }
-
-// function paginateNext(){
-//   if(pageId <= postKeys.length - 1){
-//     populateDisplay(++currentPage);
-//   }
-// }
-
-// function paginatePrevious(pageId){
-//   if(pageId <= 0){
-//     populateDisplay(--currentPage);
-//   }
-// }
 
 
 populateDisplay(pageNumber);
