@@ -1,166 +1,218 @@
 // alert('hello');
 
-var blogForm = document.getElementById('form-edit');
-var blogTitle = document.getElementById('blog-title');
-var txtArea = document.getElementById('text-area');
-var displayArea = document.querySelector('#display');
-var ListDisplayArea = document.getElementById('list-display')
-var editButton = document.querySelector('#editButton');
-var submitButton = document.getElementById('form-submit');
-var storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
-var postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
-var currentDiv = postKeys.length;
-console.log(currentDiv)
-// var storeItems = []
+const blogCreate = document.getElementById('form-create');
+const blogEdit = document.getElementById('form-edit');
+const blogTitle = document.getElementById('blog-title');
+const editTitle = document.getElementById('edit-title');
+const txtArea = document.getElementById('text-area');
+const editTxtArea = document.getElementById('edit-text-area');
+const displayArea = document.querySelector('#display');
+const ListDisplayArea = document.getElementById('list-display');
+const editButton = document.querySelector('#editButton');
+const readMore = document.getElementById('read-more');
+const deletePost = document.getElementById('delete-post');
+const submitButton = document.getElementById('form-submit');
+const previousButton = document.getElementById('previous-button');
+const nextButton = document.getElementById('next-button')
+const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
+// const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
+let currentDiv = false;
+let newIndex = 0;
+let pageStatus = false;
+let pageNumber = 0;
+
+console.log(pageStatus);
+console.log(pageNumber);
 
 
-blogForm.addEventListener('submit', function(event){
-  // function addToStorage(event) {
+
+blogCreate.addEventListener('submit', function(event){
+
   event.preventDefault()
   console.log('hello')
-  var obj = 
+  const obj = 
   {title: '', 
   body: ''
   };
-  obj.title = blogTitle.value;
-  obj.body = txtArea.value;
+  
+  if( blogTitle.value !== '' && txtArea.value !== '') {
+    obj.title = blogTitle.value;
+    obj.body = txtArea.value;
 
-  currentDiv = postKeys.length;
 
-  storeItems.push(obj);
-  console.log(storeItems);
 
-  var postKey = generateKey();
-  postKeys.push(postKey);
-  localStorage.setItem('postKeys', JSON.stringify(postKeys));
+    storeItems.push(obj);
+    console.log(storeItems);
 
- populateListDisplay(storeItems, ListDisplayArea);
-  localStorage.setItem('storeItems', JSON.stringify(storeItems));
+    // const postKey = generateKey();
+    // postKeys.push(postKey);
+    // localStorage.setItem('postKeys', JSON.stringify(postKeys));
+  
+    populateListDisplay(storeItems, ListDisplayArea);
+    localStorage.setItem('storeItems', JSON.stringify(storeItems));
+  }
   blogTitle.value = '';
   txtArea.value = '';
 })
+
+blogEdit.addEventListener('submit', function(event){
+  if(currentDiv === true  && editTitle.value !== '' && editTxtArea.value !== '') {
+
+    console.log(currentDiv)
+    console.log(newIndex)
+
+    const storageElement = JSON.parse(localStorage.getItem('storeItems'));
+    console.log(storageElement);
+    storageElement[`${newIndex}`].title = editTitle.value;
+    storageElement[`${newIndex}`].body = editTxtArea.value;
+
+    localStorage.setItem('storeItems', JSON.stringify(storageElement));
+
+    populateListDisplay(storeItems, ListDisplayArea);
+  }
+  else {
+    alert("Content can't be empty. Please Edit your post!")
+  }
+
+})
+
+
+
+function postDelete(index) {
+  const storageElements = JSON.parse(localStorage.getItem('storeItems'));
+  storageElements.splice(index, 1);
+  if(storageElements !== []){
+    localStorage.setItem('storeItems', JSON.stringify(storageElements));
+
+    populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
+  if (storageElements === []) {
+    console.log('sdrtfgyhjkl');
+    delete window.localStorage.storeItems;
+
+    // populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
   
-function populateDisplay(display = [], displayParagraph){
-  
-  for(var i = 0; i < display.length; i++){
-    displayParagraph.innerHTML = 
+}
+
+
+function populateDisplay(index){
+
+  if(!JSON.parse(localStorage.getItem('storeItems')) || !JSON.parse(localStorage.getItem('storeItems')).length){
+    return;
+  }
+  display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
+
+  displayArea.innerHTML = 
   `
- 
+
     <h1>
-      ${storeItems[i].title}
+      ${display.title}
     </h1>
     
     <p>
-      ${storeItems[i].body}
+      ${display.body}
     </p>
-
+    <button onClick="previous(${index})" id="previous-button">Previous</button>
+    <button onClick="next(${index})" id="next-button">Next</button>
+    <button onClick="showDiv('#list-display')" id="next-button">Home</button>
     `
-  }
-  
+  pageStatus = true;
+  pageNumber = index;
+ 
+  return
 }
 
 
 function populateListDisplay(display = [], displayParagraph){
-  displayParagraph.innerHTML = display.map(function(item){
+  displayParagraph.innerHTML = display.map(function(item, index){
+    item.index = index;
     return `
     <h1>
       ${item.title}
     </h1>
+    <button id="delete-post" onClick='postDelete(${index})'>Delete</button>
+    
+    <button id="editButton" onClick="editPost(${index}); showDiv('#edit');">Edit</button>
     
     <p>
       ${item.body}
     </p>
+    <button onClick="populateDisplay(${index}); showDiv('#display');" id= "read-more">Read more...</button>
     `
   }).join('');
+
 }
 
 
 
-function  generateKey() {
-  return postKeys.length
+
+
+function editPost(index){
+
+  editTitle.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].title;
+  editTxtArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
+  currentDiv = true;
+  newIndex = index;
+  return
+} 
+
+
+
+function next(index){
+  
+  
+  if(pageStatus === true) {
+    pageIndex = index + 1;
+    console.log(pageStatus);
+    console.log(pageNumber);
+
+
+
+
+    populateDisplay(pageIndex);
+    console.log(pageNumber);
+  }
+  pageNumber = index +1;
+  return
+}
+
+function previous(index){
+  
+  
+  if(pageStatus === true) {
+    pageIndex = index-1;
+    console.log(pageStatus);
+    console.log(pageNumber);
+
+    populateDisplay(pageIndex)
+    console.log(pageNumber);
+  }
+  pageNumber = index-1;
+
+  return
 }
 
 
-populateDisplay(storeItems, displayArea);
+
+populateDisplay(pageNumber);
 
 populateListDisplay(storeItems, ListDisplayArea);
 
 
-editButton.addEventListener('click', function(event){
-  event.preventDefault();
-  blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].title;
-  txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].body;
 
-  submitButton.addEventListener('click', function(){
-    event.preventDefault();
+const mydivs = ['#create', '#edit', '#list-display', '#display'];
 
-    blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].title;
-    txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[currentDiv].body;
-
-  })
-
-})
-
-
-
-
-nextButton.addEventListener('click', function(event){
-  paginateNext();
-});
-
-previousButton.addEventListener('click', function(event){
-  paginatePrevious();
-});
-
-function generateKey() {
-  return postKeys.length;
+function showDiv(divName) {
+  const elem = document.querySelector(divName);
+  mydivs.forEach(function(div) {
+    const hideElement = document.querySelector(div);
+    hideElement.classList.remove("show-div")
+    hideElement.classList.add("hide-div")
+  });
+  elem.classList.add("show-div");
 }
 
-function getPostForPage(pageId){
-  return JSON.parse(fetchFromLocalStorage(pageId));
-}
-
-function persistToLocalStorage(key,object){
-  localStorage.setItem(key, object);
-}
-
-function fetchFromLocalStorage(key){
-  return localStorage.getItem(key);
-}
-
-function getPostHtml(postData){
-   return `
-
-    <h1>
-      ${postData.title}
-    </h1>
-    
-    <div>
-      ${postData.body}
-    </div>
-
-    `;
-}
-
-function paginateNext(){
-  if(pageId <= postKeys.length - 1){
-    populateDisplay(++currentPage);
-  }
-}
-
-function paginatePrevious(pageId){
-  if(pageId <= 0){
-    populateDisplay(--currentPage);
-  }
-}
-
-
-  
-function populateDisplay(pageId){
-  const pageData = getPostForPage(pageId);
-  console.dir(pageData)
-  if(pageData){
-    displayArea.innerHTML = getPostHtml(pageData);
-  }
-}
 
