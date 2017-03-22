@@ -1,31 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Blog Creator</title>
-</head>
-<body>
-  <div id = 'edit'>
-    <form action="#" method="POST" id="form-edit">
-      <input type="text" name="title" id="blog-title" placeholder="blog-title">
-      <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
-      <input type="submit" value="Publish">
-      <button id="previousButton">Previous</button>
-      <button id="nextButton">Next</button>
-    </form>
-  </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+    <link rel="stylesheet" href="blog.css" type="text/css">
+  </head>
+  <body>
+    <div id="header">
+      <button id="create-blog" onClick="showDiv('#create')">Create Blog</button>      
+    </div>
+    <div id="container">
+      <div id = 'create' class="hide-div">
+        <form action="index.html" method="GET" id="form-create">
+          <div>
+          <input type="text" name="title" id="blog-title" placeholder="blog-title">
+          </div>
+          <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
+          <div>
+          <input type="submit" id = 'form-submit' value="Publish" onClick="showDiv('#list-display')">
+               
 
-  <div id="display">
-    <h1 class = 'disp'></h1>
-    <div class = 'disp'></div>
-  </div>
+          </div>
+        </form>
+      </div>
+      <div id = 'edit' class="hide-div">
+        <form action="index.html" method="GET" id="form-edit">
+          <div>
+          <input type="text" name="title" id="edit-title" placeholder="blog-title">
+          </div>
+          <textarea name="text-editor" id="edit-text-area" cols="30" rows="10"></textarea>
+          <div>
+          <input type="submit" id = 'edit-submit' value="Publish" onClick="showDiv('#list-display')">
+          </div>
+        </form>
+      </div>
+      
 
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.js"
-  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-  crossorigin="anonymous"></script>
-  <script src="app.js" type="text/javaScript"></script>
-</body>
+      <div id="list-display">
+        
+        <h1 id = 'disp'></h1>
+        <!--<button id="editButton">Edit</button>-->
+        <p id = 'disp1'></p>
+        <!--<button id= "read-more">Read more...</button>-->
+        <!--<button id= "delete-post">Delete</button>-->
+        
+      </div>  
+
+
+      <div id="display" class="hide-div">
+        <h1 id = 'disp'></h1>
+        <p id = 'disp1'></p>
+
+        <button id="previous-button">Previous</button>
+        <button id="next-button">Next</button>
+      </div>
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"></script>
+    <script src="app5.js" type="text/javaScript"></script>
+  </body>
 </html>
