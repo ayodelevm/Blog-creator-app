@@ -10,17 +10,19 @@ const displayArea = document.querySelector('#display');
 const ListDisplayArea = document.getElementById('list-display');
 const editButton = document.querySelector('#editButton');
 const readMore = document.getElementById('read-more');
+const deletePost = document.getElementById('delete-post');
 const submitButton = document.getElementById('form-submit');
-const previousButton = document.getElementById('previousButton');
-const nextButton = document.getElementById('nextButton')
+const previousButton = document.getElementById('previous-button');
+const nextButton = document.getElementById('next-button')
 const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
-const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
+// const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
 let currentDiv = false;
 let newIndex = 0;
 let pageStatus = false;
 let pageNumber = 0;
 
-// console.log(currentDiv)
+console.log(pageStatus);
+console.log(pageNumber);
 
 
 
@@ -32,26 +34,29 @@ blogCreate.addEventListener('submit', function(event){
   {title: '', 
   body: ''
   };
-  obj.title = blogTitle.value;
-  obj.body = txtArea.value;
+  
+  if( blogTitle.value !== '' && txtArea.value !== '') {
+    obj.title = blogTitle.value;
+    obj.body = txtArea.value;
 
 
 
-  storeItems.push(obj);
-  console.log(storeItems);
+    storeItems.push(obj);
+    console.log(storeItems);
 
-  const postKey = generateKey();
-  postKeys.push(postKey);
-  localStorage.setItem('postKeys', JSON.stringify(postKeys));
-
-  populateListDisplay(storeItems, ListDisplayArea);
-  localStorage.setItem('storeItems', JSON.stringify(storeItems));
+    // const postKey = generateKey();
+    // postKeys.push(postKey);
+    // localStorage.setItem('postKeys', JSON.stringify(postKeys));
+  
+    populateListDisplay(storeItems, ListDisplayArea);
+    localStorage.setItem('storeItems', JSON.stringify(storeItems));
+  }
   blogTitle.value = '';
   txtArea.value = '';
 })
 
 blogEdit.addEventListener('submit', function(event){
-  if(currentDiv === true) {
+  if(currentDiv === true  && editTitle.value !== '' && editTxtArea.value !== '') {
 
     console.log(currentDiv)
     console.log(newIndex)
@@ -65,20 +70,44 @@ blogEdit.addEventListener('submit', function(event){
 
     populateListDisplay(storeItems, ListDisplayArea);
   }
-  
-
-
-
+  else {
+    alert("Content can't be empty. Please Edit your post!")
+  }
 
 })
 
+
+
+function postDelete(index) {
+  const storageElements = JSON.parse(localStorage.getItem('storeItems'));
+  storageElements.splice(index, 1);
+  if(storageElements !== []){
+    localStorage.setItem('storeItems', JSON.stringify(storageElements));
+
+    populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
+  if (storageElements === []) {
+    console.log('sdrtfgyhjkl');
+    delete window.localStorage.storeItems;
+
+    // populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
   
+}
+
+
 function populateDisplay(index){
+
+  if(!JSON.parse(localStorage.getItem('storeItems')) || !JSON.parse(localStorage.getItem('storeItems')).length){
+    return;
+  }
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
-  
-    displayArea.innerHTML = 
+
+  displayArea.innerHTML = 
   `
- 
+
     <h1>
       ${display.title}
     </h1>
@@ -86,12 +115,14 @@ function populateDisplay(index){
     <p>
       ${display.body}
     </p>
-    <button id="previousButton">Previous</button>
-    <button id="nextButton">Next</button>
+    <button onClick="previous(${index})" id="previous-button">Previous</button>
+    <button onClick="next(${index})" id="next-button">Next</button>
+    <button onClick="showDiv('#list-display')" id="next-button">Home</button>
     `
-
   pageStatus = true;
   pageNumber = index;
+ 
+  return
 }
 
 
@@ -102,26 +133,18 @@ function populateListDisplay(display = [], displayParagraph){
     <h1>
       ${item.title}
     </h1>
-    <button id="editButton" onClick='editPost(${index})'>Edit</button>
+    <button id="delete-post" onClick='postDelete(${index})'>Delete</button>
+    
+    <button id="editButton" onClick="editPost(${index}); showDiv('#edit');">Edit</button>
+    
     <p>
       ${item.body}
     </p>
-    <a href="#" onClick='populateDisplay(${index})' id= "read-more">Read more...</a>
+    <button onClick="populateDisplay(${index}); showDiv('#display');" id= "read-more">Read more...</button>
     `
   }).join('');
 
 }
-
-
-
-function  generateKey() {
-  return postKeys.length
-}
-
-
-populateDisplay(0);
-
-populateListDisplay(storeItems, ListDisplayArea);
 
 
 
@@ -136,63 +159,60 @@ function editPost(index){
   return
 } 
 
-function publishEdit(index) {
+
+
+function next(index){
   
+  
+  if(pageStatus === true) {
+    pageIndex = index + 1;
+    console.log(pageStatus);
+    console.log(pageNumber);
+
+
+
+
+    populateDisplay(pageIndex);
+    console.log(pageNumber);
+  }
+  pageNumber = index +1;
+  return
+}
+
+function previous(index){
+  
+  
+  if(pageStatus === true) {
+    pageIndex = index-1;
+    console.log(pageStatus);
+    console.log(pageNumber);
+
+    populateDisplay(pageIndex)
+    console.log(pageNumber);
+  }
+  pageNumber = index-1;
+
+  return
 }
 
 
 
+populateDisplay(pageNumber);
+
+populateListDisplay(storeItems, ListDisplayArea);
 
 
-// nextButton.addEventListener('click', function(event){
-//   paginateNext();
-// });
 
-// previousButton.addEventListener('click', function(event){
-//   paginatePrevious();
-// });
+const mydivs = ['#create', '#edit', '#list-display', '#display'];
 
-// function generateKey() {
-//   return postKeys.length;
-// }
-
-// function getPostForPage(pageId){
-//   return JSON.parse(fetchFromLocalStorage(pageId));
-// }
-
-// function persistToLocalStorage(key,object){
-//   localStorage.setItem(key, object);
-// }
-
-// function fetchFromLocalStorage(key){
-//   return localStorage.getItem(key);
-// }
-
-// function getPostHtml(postData){
-//    return `
-
-//     <h1>
-//       ${postData.title}
-//     </h1>
-    
-//     <div>
-//       ${postData.body}
-//     </div>
-
-//     `;
-// }
-
-// function paginateNext(){
-//   if(pageId <= postKeys.length - 1){
-//     populateDisplay(++currentPage);
-//   }
-// }
-
-// function paginatePrevious(pageId){
-//   if(pageId <= 0){
-//     populateDisplay(--currentPage);
-//   }
-// }
-
+function showDiv(divName) {
+  const elem = document.querySelector(divName);
+  mydivs.forEach(function(div) {
+    const hideElement = document.querySelector(div);
+    hideElement.classList.remove("show-div")
+    hideElement.classList.add("hide-div")
+  });
+  elem.classList.add("show-div");
+}
 
 
