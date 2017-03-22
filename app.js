@@ -15,7 +15,7 @@ const submitButton = document.getElementById('form-submit');
 const previousButton = document.getElementById('previous-button');
 const nextButton = document.getElementById('next-button')
 const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
-const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
+// const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
 let currentDiv = false;
 let newIndex = 0;
 let pageStatus = false;
@@ -34,26 +34,29 @@ blogCreate.addEventListener('submit', function(event){
   {title: '', 
   body: ''
   };
-  obj.title = blogTitle.value;
-  obj.body = txtArea.value;
+  
+  if( blogTitle.value !== '' && txtArea.value !== '') {
+    obj.title = blogTitle.value;
+    obj.body = txtArea.value;
 
 
 
-  storeItems.push(obj);
-  console.log(storeItems);
+    storeItems.push(obj);
+    console.log(storeItems);
 
-  const postKey = generateKey();
-  postKeys.push(postKey);
-  localStorage.setItem('postKeys', JSON.stringify(postKeys));
- 
-  populateListDisplay(storeItems, ListDisplayArea);
-  localStorage.setItem('storeItems', JSON.stringify(storeItems));
+    // const postKey = generateKey();
+    // postKeys.push(postKey);
+    // localStorage.setItem('postKeys', JSON.stringify(postKeys));
+  
+    populateListDisplay(storeItems, ListDisplayArea);
+    localStorage.setItem('storeItems', JSON.stringify(storeItems));
+  }
   blogTitle.value = '';
   txtArea.value = '';
 })
 
 blogEdit.addEventListener('submit', function(event){
-  if(currentDiv === true) {
+  if(currentDiv === true  && editTitle.value !== '' && editTxtArea.value !== '') {
 
     console.log(currentDiv)
     console.log(newIndex)
@@ -67,6 +70,9 @@ blogEdit.addEventListener('submit', function(event){
 
     populateListDisplay(storeItems, ListDisplayArea);
   }
+  else {
+    alert("Content can't be empty. Please Edit your post!")
+  }
 
 })
 
@@ -75,20 +81,33 @@ blogEdit.addEventListener('submit', function(event){
 function postDelete(index) {
   const storageElements = JSON.parse(localStorage.getItem('storeItems'));
   storageElements.splice(index, 1);
-  localStorage.setItem('storeItems', JSON.stringify(storageElements));
+  if(storageElements !== []){
+    localStorage.setItem('storeItems', JSON.stringify(storageElements));
 
-  populateListDisplay(storeItems, ListDisplayArea);
-  window.parent.location = window.parent.location.href;
+    populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
+  if (storageElements === []) {
+    console.log('sdrtfgyhjkl');
+    delete window.localStorage.storeItems;
+
+    // populateListDisplay(storeItems, ListDisplayArea);
+    window.parent.location = window.parent.location.href;
+  }
+  
 }
 
 
 function populateDisplay(index){
 
+  if(!JSON.parse(localStorage.getItem('storeItems')) || !JSON.parse(localStorage.getItem('storeItems')).length){
+    return;
+  }
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
 
   displayArea.innerHTML = 
   `
- 
+
     <h1>
       ${display.title}
     </h1>
@@ -98,6 +117,7 @@ function populateDisplay(index){
     </p>
     <button onClick="previous(${index})" id="previous-button">Previous</button>
     <button onClick="next(${index})" id="next-button">Next</button>
+    <button onClick="showDiv('#list-display')" id="next-button">Home</button>
     `
   pageStatus = true;
   pageNumber = index;
@@ -115,25 +135,16 @@ function populateListDisplay(display = [], displayParagraph){
     </h1>
     <button id="delete-post" onClick='postDelete(${index})'>Delete</button>
     
-    <button id="editButton" onClick='editPost(${index})'>Edit</button>
+    <button id="editButton" onClick="editPost(${index}); showDiv('#edit');">Edit</button>
     
     <p>
       ${item.body}
     </p>
-    <button onClick='populateDisplay(${index})' id= "read-more">Read more...</button>
+    <button onClick="populateDisplay(${index}); showDiv('#display');" id= "read-more">Read more...</button>
     `
   }).join('');
 
 }
-
-
-
-function  generateKey() {
-  return postKeys.length
-}
-
-
-
 
 
 
@@ -189,5 +200,19 @@ function previous(index){
 populateDisplay(pageNumber);
 
 populateListDisplay(storeItems, ListDisplayArea);
+
+
+
+const mydivs = ['#create', '#edit', '#list-display', '#display'];
+
+function showDiv(divName) {
+  const elem = document.querySelector(divName);
+  mydivs.forEach(function(div) {
+    const hideElement = document.querySelector(div);
+    hideElement.classList.remove("show-div")
+    hideElement.classList.add("hide-div")
+  });
+  elem.classList.add("show-div");
+}
 
 
