@@ -1,23 +1,31 @@
 // alert('hello');
 
-const blogForm = document.getElementById('form-edit');
+const blogCreate = document.getElementById('form-create');
+const blogEdit = document.getElementById('form-edit');
 const blogTitle = document.getElementById('blog-title');
+const editTitle = document.getElementById('edit-title');
 const txtArea = document.getElementById('text-area');
+const editTxtArea = document.getElementById('edit-text-area');
 const displayArea = document.querySelector('#display');
 const ListDisplayArea = document.getElementById('list-display');
 const editButton = document.querySelector('#editButton');
 const readMore = document.getElementById('read-more');
 const submitButton = document.getElementById('form-submit');
+const previousButton = document.getElementById('previousButton');
+const nextButton = document.getElementById('nextButton')
 const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
 const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
-const currentDiv = postKeys.length;
-// const showPost;
-console.log(currentDiv)
-// const storeItems = []
+let currentDiv = false;
+let newIndex = 0;
+let pageStatus = false;
+let pageNumber = 0;
+
+// console.log(currentDiv)
 
 
-blogForm.addEventListener('submit', function(event){
-  // function addToStorage(event) {
+
+blogCreate.addEventListener('submit', function(event){
+
   event.preventDefault()
   console.log('hello')
   const obj = 
@@ -27,7 +35,7 @@ blogForm.addEventListener('submit', function(event){
   obj.title = blogTitle.value;
   obj.body = txtArea.value;
 
-  // currentDiv = postKeys.length;
+
 
   storeItems.push(obj);
   console.log(storeItems);
@@ -42,22 +50,32 @@ blogForm.addEventListener('submit', function(event){
   txtArea.value = '';
 })
 
-// readMore.addEventListener('click', function(event){
-//   showPost(0)
-//   // function addToStorage(event) {
-//   event.preventDefault()
-//   console.log('hello')
+blogEdit.addEventListener('submit', function(event){
+  if(currentDiv === true) {
+
+    console.log(currentDiv)
+    console.log(newIndex)
+
+    const storageElement = JSON.parse(localStorage.getItem('storeItems'));
+    console.log(storageElement);
+    storageElement[`${newIndex}`].title = editTitle.value;
+    storageElement[`${newIndex}`].body = editTxtArea.value;
+
+    localStorage.setItem('storeItems', JSON.stringify(storageElement));
+
+    populateListDisplay(storeItems, ListDisplayArea);
+  }
   
-//   currentDiv = postKeys.length;
 
 
-//   populateDisplay(DisplayArea);
 
-// })
+
+})
+
   
 function populateDisplay(index){
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
-  // for(let i = 0; i < display.length; i++){
+  
     displayArea.innerHTML = 
   `
  
@@ -71,15 +89,15 @@ function populateDisplay(index){
     <button id="previousButton">Previous</button>
     <button id="nextButton">Next</button>
     `
-  // }
-  
+
+  pageStatus = true;
+  pageNumber = index;
 }
-
-
 
 
 function populateListDisplay(display = [], displayParagraph){
   displayParagraph.innerHTML = display.map(function(item, index){
+    item.index = index;
     return `
     <h1>
       ${item.title}
@@ -91,6 +109,7 @@ function populateListDisplay(display = [], displayParagraph){
     <a href="#" onClick='populateDisplay(${index})' id= "read-more">Read more...</a>
     `
   }).join('');
+
 }
 
 
@@ -109,73 +128,71 @@ populateListDisplay(storeItems, ListDisplayArea);
 
 
 function editPost(index){
-  // event.preventDefault();
-  blogTitle.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].title;
-  txtArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
 
+  editTitle.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].title;
+  editTxtArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
+  currentDiv = true;
+  newIndex = index;
+  return
+} 
 
-}
-
-
-
-
-nextButton.addEventListener('click', function(event){
-  paginateNext();
-});
-
-previousButton.addEventListener('click', function(event){
-  paginatePrevious();
-});
-
-function generateKey() {
-  return postKeys.length;
-}
-
-function getPostForPage(pageId){
-  return JSON.parse(fetchFromLocalStorage(pageId));
-}
-
-function persistToLocalStorage(key,object){
-  localStorage.setItem(key, object);
-}
-
-function fetchFromLocalStorage(key){
-  return localStorage.getItem(key);
-}
-
-function getPostHtml(postData){
-   return `
-
-    <h1>
-      ${postData.title}
-    </h1>
-    
-    <div>
-      ${postData.body}
-    </div>
-
-    `;
-}
-
-function paginateNext(){
-  if(pageId <= postKeys.length - 1){
-    populateDisplay(++currentPage);
-  }
-}
-
-function paginatePrevious(pageId){
-  if(pageId <= 0){
-    populateDisplay(--currentPage);
-  }
-}
-
-
+function publishEdit(index) {
   
-// function populateDisplay(pageId){
-//   const pageData = getPostForPage(pageId);
-//   console.dir(pageData)
-//   if(pageData){
-//     displayArea.innerHTML = getPostHtml(pageData);
+}
+
+
+
+
+
+// nextButton.addEventListener('click', function(event){
+//   paginateNext();
+// });
+
+// previousButton.addEventListener('click', function(event){
+//   paginatePrevious();
+// });
+
+// function generateKey() {
+//   return postKeys.length;
+// }
+
+// function getPostForPage(pageId){
+//   return JSON.parse(fetchFromLocalStorage(pageId));
+// }
+
+// function persistToLocalStorage(key,object){
+//   localStorage.setItem(key, object);
+// }
+
+// function fetchFromLocalStorage(key){
+//   return localStorage.getItem(key);
+// }
+
+// function getPostHtml(postData){
+//    return `
+
+//     <h1>
+//       ${postData.title}
+//     </h1>
+    
+//     <div>
+//       ${postData.body}
+//     </div>
+
+//     `;
+// }
+
+// function paginateNext(){
+//   if(pageId <= postKeys.length - 1){
+//     populateDisplay(++currentPage);
 //   }
 // }
+
+// function paginatePrevious(pageId){
+//   if(pageId <= 0){
+//     populateDisplay(--currentPage);
+//   }
+// }
+
+
 
