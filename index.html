@@ -9,31 +9,27 @@
   </head>
   <body>
     <div id="container">
-      <div id = 'edit'>
-        <form action="index.html" method="GET" id="form-edit">
+      <div id = 'create'>
+        <form action="index.html" method="GET" id="form-create">
           <div>
           <input type="text" name="title" id="blog-title" placeholder="blog-title">
           </div>
           <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
           <div>
           <input type="submit" id = 'form-submit' value="Publish">
-          <button id="editButton">Edit</button>      
-          <button id="previousButton">Previous</button>
-          <button id="nextButton">Next</button>
+               
+
           </div>
         </form>
       </div>
       <div id = 'edit'>
         <form action="index.html" method="GET" id="form-edit">
           <div>
-          <input type="text" name="title" id="blog-title" placeholder="blog-title">
+          <input type="text" name="title" id="edit-title" placeholder="blog-title">
           </div>
-          <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
+          <textarea name="text-editor" id="edit-text-area" cols="30" rows="10"></textarea>
           <div>
-          <input type="submit" id = 'form-submit' value="Publish">
-          <button id="editButton">Edit</button>      
-          <button id="previousButton">Previous</button>
-          <button id="nextButton">Next</button>
+          <input type="submit" id = 'edit-submit' value="Publish">
           </div>
         </form>
       </div>
@@ -41,6 +37,7 @@
 
       <div id="list-display">
         <h1 id = 'disp'></h1>
+        <button id="editButton">Edit</button> 
         <p id = 'disp1'></p>
       </div>  
 
@@ -48,6 +45,9 @@
       <div id="display">
         <h1 id = 'disp'></h1>
         <p id = 'disp1'></p>
+
+        <button id="previousButton">Previous</button>
+        <button id="nextButton">Next</button>
       </div>
     </div>
     <script
