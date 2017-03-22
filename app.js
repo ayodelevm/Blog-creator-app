@@ -11,8 +11,8 @@ const ListDisplayArea = document.getElementById('list-display');
 const editButton = document.querySelector('#editButton');
 const readMore = document.getElementById('read-more');
 const submitButton = document.getElementById('form-submit');
-const previousButton = document.getElementById('previousButton');
-const nextButton = document.getElementById('nextButton')
+const previousButton = document.getElementById('previous-button');
+const nextButton = document.getElementById('next-button')
 const storeItems = JSON.parse(localStorage.getItem('storeItems')) || [];
 const postKeys = JSON.parse(localStorage.getItem('postKeys')) || [];
 let currentDiv = false;
@@ -20,7 +20,8 @@ let newIndex = 0;
 let pageStatus = false;
 let pageNumber = 0;
 
-// console.log(currentDiv)
+console.log(pageStatus);
+console.log(pageNumber);
 
 
 
@@ -74,9 +75,10 @@ blogEdit.addEventListener('submit', function(event){
 
   
 function populateDisplay(index){
+
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
-  
-    displayArea.innerHTML = 
+
+  displayArea.innerHTML = 
   `
  
     <h1>
@@ -86,12 +88,13 @@ function populateDisplay(index){
     <p>
       ${display.body}
     </p>
-    <button id="previousButton">Previous</button>
-    <button id="nextButton">Next</button>
+    <button onClick="previous(${index})" id="previous-button">Previous</button>
+    <button onClick="next(${index})" id="next-button">Next</button>
     `
-
   pageStatus = true;
   pageNumber = index;
+ 
+  return
 }
 
 
@@ -106,7 +109,7 @@ function populateListDisplay(display = [], displayParagraph){
     <p>
       ${item.body}
     </p>
-    <a href="#" onClick='populateDisplay(${index})' id= "read-more">Read more...</a>
+    <button onClick='populateDisplay(${index})' id= "read-more">Read more...</button>
     `
   }).join('');
 
@@ -119,9 +122,7 @@ function  generateKey() {
 }
 
 
-populateDisplay(0);
 
-populateListDisplay(storeItems, ListDisplayArea);
 
 
 
@@ -136,21 +137,41 @@ function editPost(index){
   return
 } 
 
-function publishEdit(index) {
+
+
+function next(index){
   
+  
+  if(pageStatus === true) {
+    pageIndex = index + 1;
+    console.log(pageStatus);
+    console.log(pageNumber);
+
+
+
+
+    populateDisplay(pageIndex);
+    console.log(pageNumber);
+  }
+  pageNumber = index +1;
+  return
 }
 
+function previous(index){
+  
+  
+  if(pageStatus === true) {
+    pageIndex = index-1;
+    console.log(pageStatus);
+    console.log(pageNumber);
 
+    populateDisplay(pageIndex)
+    console.log(pageNumber);
+  }
+  pageNumber = index-1;
 
-
-
-// nextButton.addEventListener('click', function(event){
-//   paginateNext();
-// });
-
-// previousButton.addEventListener('click', function(event){
-//   paginatePrevious();
-// });
+  return
+}
 
 // function generateKey() {
 //   return postKeys.length;
@@ -194,5 +215,9 @@ function publishEdit(index) {
 //   }
 // }
 
+
+populateDisplay(pageNumber);
+
+populateListDisplay(storeItems, ListDisplayArea);
 
 
