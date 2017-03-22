@@ -8,42 +8,48 @@
     <link rel="stylesheet" href="blog.css" type="text/css">
   </head>
   <body>
+    <div id="header">
+      <button id="create-blog" onClick="showDiv('#create')">Create Blog</button>      
+    </div>
     <div id="container">
-      <div id = 'create'>
+      <div id = 'create' class="hide-div">
         <form action="index.html" method="GET" id="form-create">
           <div>
           <input type="text" name="title" id="blog-title" placeholder="blog-title">
           </div>
           <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
           <div>
-          <input type="submit" id = 'form-submit' value="Publish">
+          <input type="submit" id = 'form-submit' value="Publish" onClick="showDiv('#list-display')">
                
 
           </div>
         </form>
       </div>
-      <div id = 'edit'>
+      <div id = 'edit' class="hide-div">
         <form action="index.html" method="GET" id="form-edit">
           <div>
           <input type="text" name="title" id="edit-title" placeholder="blog-title">
           </div>
           <textarea name="text-editor" id="edit-text-area" cols="30" rows="10"></textarea>
           <div>
-          <input type="submit" id = 'edit-submit' value="Publish">
+          <input type="submit" id = 'edit-submit' value="Publish" onClick="showDiv('#list-display')">
           </div>
         </form>
       </div>
       
 
       <div id="list-display">
+        
         <h1 id = 'disp'></h1>
-        <button id="editButton">Edit</button> 
+        <!--<button id="editButton">Edit</button>-->
         <p id = 'disp1'></p>
-        <button id= "read-more">Read more...</button>
+        <!--<button id= "read-more">Read more...</button>-->
+        <!--<button id= "delete-post">Delete</button>-->
+        
       </div>  
 
 
-      <div id="display">
+      <div id="display" class="hide-div">
         <h1 id = 'disp'></h1>
         <p id = 'disp1'></p>
 
