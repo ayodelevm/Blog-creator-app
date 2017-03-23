@@ -18,7 +18,7 @@ body {
 
 #header {
   width: 100%;
-  height:200px;
+  height:300px;
   background-color: rgb(7, 54, 66);
   box-sizing: border-box;
   border: none;
@@ -27,11 +27,11 @@ body {
 
 #inner-header {
   width: 100%;
-  height: 140px;
+  height: 200px;
   background-color: #f7f7f7;
   box-sizing: border-box;
   border: none;
-  margin-top: 27px;
+  margin-top: 50px;
   position: absolute;
 
 }
@@ -41,7 +41,7 @@ body {
   font-weight: bold;
   background-color: darkred;
   color: #f7f7f7;
-  font-size: 60px;
+  font-size: 100px;
   letter-spacing: 0em;
   margin-bottom: 0;
   margin-left: 20px;
@@ -51,12 +51,12 @@ body {
   color: rgb(7, 54, 66);
   font-family: offside;
   font-weight: bold;
-  font-size: 60px;
+  font-size: 100px;
   letter-spacing: 0em;
   margin-bottom: 0;
   margin-top: 12px;
   
-  margin-left: 20px;
+  margin-left: 650px;
   /*height: 30px;*/
   
 }
@@ -66,7 +66,7 @@ body {
   font-weight: bold;
   background-color: rgb(7, 54, 66);
   color: #f7f7f7;
-  font-size: 60px;
+  font-size: 100px;
   letter-spacing: 0em;
   margin-bottom: 0;
   padding-left: 5px;
@@ -77,12 +77,12 @@ body {
   font-family: Lobster, cursive;
   font-weight: 00i;
   text-transform: lowercase;
-  margin-left: 40px;
+  margin-left: 670px;
   letter-spacing: 0.1em;
-  font-size: 1.3em;
+  font-size: 1.6em;
   border-top: 4px solid darkred;
   border-bottom: 4px solid darkred;
-  width: 368px;
+  width: 612px;
   padding-left: 200px;
 
 }
@@ -92,7 +92,10 @@ body {
   border: 1px solid purple;
   /*border-right: 1px solid purple;*/
   height: 100%;
-  margin: -32px auto
+  margin: -50px auto;
+  display: block;
+  padding-bottom: 15px;
+  
 }
 
 .blog-heading {
@@ -101,9 +104,26 @@ body {
   font-weight: normal;
   font-size: 2rem;
   font-family: "Black Ops One";
-  padding-bottom: 10px;
-  margin-left: 20px;
+  padding-left: 25px;
+  
 }
+
+.blog-content {
+  color: #2c3e50;
+  font-weight: normal;
+  /*padding-bottom: 10px;*/
+  padding-left: 25px;  
+  
+}
+
+#read-more {
+  margin-top: -15px;
+  margin-bottom: 30px;
+  text-decoration: none;
+  padding-left: 25px;
+  padding-bottom: 15px;
+}
+
 
 /* navigation */
 	
@@ -115,59 +135,127 @@ body {
 	list-style: none;
 	background: darkred;
 	border-bottom: none;
+  height: 48px;
 }
 
 #nav li { 
 	float: left;
 	margin: 0;
 	padding: 0;
+  margin-left: 200px;
 }
 	
 #nav a {
 	float: left;
 	display: block;
-	padding: 6px 30px 6px 20px;
+	padding: 6px 30px 6px 0px;
 	text-decoration: none;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: 25px;
 	color: white;
-	background: darkred;
-  border-right: 3px solid white;
+	/*background: yellowgreen;*/
+  /*border-right: 3px solid white;*/
+  margin-top: 4px;
 }
 	
 #nav #nav-1 a {
-	padding-left: 20px;
+	padding-left: -80px;
 }
 	
 #nav a:hover {
 	color: #000;
 }
 
-/* more */
-	
-/*ul#more {
-	clear: left;
-	margin-top: 60px;
-}*/
+input[type="text"] {
+  border:1px solid #d1c7ac;
+	width: 90%;
+	height: 60px;
+	color:#333333;
+	padding:5px;
+  font-size: 2.0em;
+  font-weight: bold;
+  margin-top: 30px;
+	margin-right:4px;
+	margin-bottom:8px;
+  margin-left: 50px;  
+	font-family:tahoma, arial, sans-serif;
+}
 
+textarea {
+  border:1px solid #d1c7ac;
+	width: 90%;
+	height: 400px;
+	color:#333333;
+	padding:3px;
+  margin-left: 50px;
+	margin-right:4px;
+	margin-bottom:8px;
+	font-family:tahoma, arial, sans-serif;
+}
 
-.blog.content {
+input[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 850px;
+    margin-top: 50px;
+    margin-bottom: 10px
+}
+
+#post-head {
+  margin-left: 850px;
+  /*display: block;*/
+  position: relative;
+  /*width: 100%;*/
+}
+
+ #delete-post, #editButton {
+
+  margin-top: 20px;
+  margin-right: 5px;
+  background-color: white;
+  color: black;
+  border: 2px solid darkred;
+  padding: 2px 2px;
+  height: 28px;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  font-size: 1.2em;
+  font-weight: bold;
+  -webkit-transition-duration: 0.4s; 
+  transition-duration: 0.4s;
 
 }
-#create {
-  /*display: none;*/
-}
 
-/*#edit {
-  width: 100%;
-  margin: 10px 35%;
-  display: none;
-}*/
+#editButton:hover, #delete-post:hover {
+    background-color: rgb(7, 54, 66);
+    color: white;
+}
 
 .hide-div {
   display: none;
+  animation: fade 10s;
 }
 
 .show-div {
   display: block;
+  animation: fade 1s;
+}
+
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
