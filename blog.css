@@ -2,15 +2,20 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700);
 @import "https://fonts.googleapis.com/css?family=Black+Ops+One";
+@import url('https://fonts.googleapis.com/css?family=Monda:400,700');
 
 
 
 html {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: 'Source Sans Pro';
+  background-image: url(https://images.unsplash.com/photo-1470218091926-22a08a325802?ixlib=rb-0.3.5&q=100&fm=jpg&crop=entropy&cs=tinysrgb&dl=ishan-seefromthesky-118581.jpg&s=7d9cc2dfed744ba6207925a286693b73);
+  background-size: cover no repeat;
+  background-position: center;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -83,37 +88,50 @@ body {
   border-top: 4px solid darkred;
   border-bottom: 4px solid darkred;
   width: 612px;
-  padding-left: 200px;
+  padding-left: 100px;
 
 }
 
 #container {
-  width: 53%;
-  border: 1px solid purple;
+  max-width: 53%;
+  border: 1px solid transparent;
   /*border-right: 1px solid purple;*/
   height: 100%;
   margin: -50px auto;
   display: block;
   padding-bottom: 15px;
-  
+  background-color: #f7f7f7;
+  position: relative;
+  background-clip: padding-box;
 }
 
 .blog-heading {
   color: #2c3e50;
   text-transform: uppercase;
-  font-weight: normal;
+  font-weight: 700;
   font-size: 2rem;
-  font-family: "Black Ops One";
+  font-family: 'Monda', sans-serif;;
   padding-left: 25px;
-  
+  padding-right: 25px;
+  word-wrap: break-word; 
+  width: 100%;
+}
+
+#display {
+  margin-top: 100px;
 }
 
 .blog-content {
+  max-height: 45px;
+  overflow: hidden;
   color: #2c3e50;
   font-weight: normal;
-  /*padding-bottom: 10px;*/
-  padding-left: 25px;  
-  
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  display: block;
+  word-wrap: break-word; 
+  width: 100%;
 }
 
 #read-more {
@@ -135,7 +153,7 @@ body {
 	list-style: none;
 	background: darkred;
 	border-bottom: none;
-  height: 48px;
+  height: 50px;
 }
 
 #nav li { 
@@ -184,7 +202,7 @@ input[type="text"] {
 textarea {
   border:1px solid #d1c7ac;
 	width: 90%;
-	height: 400px;
+	height: 380px;
 	color:#333333;
 	padding:3px;
   margin-left: 50px;
@@ -203,7 +221,7 @@ input[type="submit"] {
     display: inline-block;
     font-size: 25px;
     font-weight: bold;
-    margin-left: 850px;
+    margin-left: 800px;
     margin-top: 50px;
     margin-bottom: 10px
 }
@@ -220,8 +238,8 @@ input[type="submit"] {
   margin-top: 20px;
   margin-right: 5px;
   background-color: white;
-  color: black;
-  border: 2px solid darkred;
+  color: darkslategrey;
+  border: 2px solid dimgrey;
   padding: 2px 2px;
   height: 28px;
   text-align: center;
@@ -231,12 +249,22 @@ input[type="submit"] {
   font-weight: bold;
   -webkit-transition-duration: 0.4s; 
   transition-duration: 0.4s;
+  border-radius: 4px;
 
 }
 
 #editButton:hover, #delete-post:hover {
     background-color: rgb(7, 54, 66);
     color: white;
+}
+
+#previous-button, #next-button {
+  text-decoration: none;
+  padding-left: 75px;
+}
+
+#next-button {
+  margin-left: 700px;
 }
 
 .hide-div {
