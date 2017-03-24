@@ -1,6 +1,6 @@
-# Blog (Front End)
+# Cycle XX Project: Blog (Front End)
 
-This is the front end app that enable users create posts, edit posts, preview posts, delete posts and save posts to local storage.
+This is a front end app that enable users to create blog posts, edit blog posts, preview blog posts, delete blog posts and save blog posts to local storage.
 
 ## Project Structure
 
