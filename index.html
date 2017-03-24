@@ -9,19 +9,32 @@
   </head>
   <body>
     <div id="header">
-      <button id="create-blog" onClick="showDiv('#create')">Create Blog</button>      
+      <div id="inner-header">
+        <h1 id='all-black'>
+        <span id='red-back'>Tech</span><span id = 'black-text'>Visuals</span>
+        </h1>
+        <p id="motto">
+        ...Predicting the future of tech...
+      </div>
+      <!--<button id="create-blog" class="show-div" onClick="showDiv('#create')">Create Blog</button>      -->
     </div>
+
     <div id="container">
+      <ul id="nav">
+        <li id="nav-1" onClick="showDiv('#list-display')" id="next-button"><a href="#">Home</a></li>
+        <li id="nav-2" id="create-blog" class="show-div" onClick="showDiv('#create')"><a href="#">Create</a></li>
+        <li id="nav-3"><a href="#">About</a></li>
+        <!--<li id="nav-4"><a href="#">Havalina</a></li>-->
+      </ul>
+
       <div id = 'create' class="hide-div">
         <form action="index.html" method="GET" id="form-create">
           <div>
-          <input type="text" name="title" id="blog-title" placeholder="blog-title">
+          <input type="text" name="title" id="blog-title" placeholder="Enter A Title For Your Blog Post">
           </div>
           <textarea name="text-editor" id="text-area" cols="30" rows="10"></textarea>
           <div>
           <input type="submit" id = 'form-submit' value="Publish" onClick="showDiv('#list-display')">
-               
-
           </div>
         </form>
       </div>
@@ -40,27 +53,41 @@
 
       <div id="list-display">
         
-        <h1 id = 'disp'></h1>
-        <!--<button id="editButton">Edit</button>-->
-        <p id = 'disp1'></p>
-        <!--<button id= "read-more">Read more...</button>-->
-        <!--<button id= "delete-post">Delete</button>-->
+        <div id = "post-head">
+          <button id="delete-post" onClick='refreshPage();'></button>
+          <button id="editButton" onClick="showDiv('#edit');"></button>
+        </div>
+          <h1 class = 'blog-heading'>
+          </h1>
+          <h5>
+          </h5>
+          <p class = 'blog-content'>
+          </p>
+          <a href="#" onClick=" showDiv('#display');" id= "read-more"></a>
         
       </div>  
 
-
       <div id="display" class="hide-div">
-        <h1 id = 'disp'></h1>
-        <p id = 'disp1'></p>
+        <h1 class = 'blog-heading' id = 'blog-top'></h1>
+        <h5>
+        </h5>
+        <p class = 'blog-content'></p>
 
-        <button id="previous-button">Previous</button>
-        <button id="next-button">Next</button>
+        <a href="#" id="previous-button"></a>
+        <a href="#" id="next-button"></a>
       </div>
     </div>
+
+    <footer>
+      <div id="footer">
+        <p>
+          Copyright &copy; 2017 by Ayodele Victor...
+        </p>
+      </div>
+    </footer>
+
     <script
-    src="https://code.jquery.com/jquery-3.1.1.js"
-    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-    crossorigin="anonymous"></script>
-    <script src="app5.js" type="text/javaScript"></script>
+    <script src="app.js" type="text/javaScript">
+    </script>
   </body>
 </html>
