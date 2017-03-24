@@ -36,7 +36,7 @@ cd week-two-project
 
 ### To Use the Hosted Version, Visit:
 
-- [github pages]()
+- [github pages](https://ayodelevm.github.io/week-two-project/)
 
 ### CONTRIBUTOR
 
