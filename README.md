@@ -9,8 +9,8 @@ This is the front end app that enable users create posts, edit posts, preview po
 |  app.js/ | javaScript file defining the various functions performed by blog |
 |  blog.css/ | Style sheet containing the blog styling features  |
 |  index.html/ | Cotains html code, defining structure |
-|  spec/ | contains test files and results  |
-|  package.json | contains user information required during npm init |
+|  README.md | gives information on the app  |
+
 
 ## Getting Started
 
@@ -37,6 +37,10 @@ cd week-two-project
 ### To Use the Hosted Version, Visit:
 
 - [github pages]()
+
+### CONTRIBUTOR
+
+- Project was done by Ayodele Victor Muyiwa
 
 ### NOTE
 
