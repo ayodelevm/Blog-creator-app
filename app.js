@@ -20,9 +20,6 @@ let newIndex = 0;
 let pageStatus = false;
 let pageNumber = 0;
 
-console.log(pageStatus);
-console.log(pageNumber);
-
 /*
 =======================================================================================================
 == function for creating blog post                                                                   ==
@@ -42,12 +39,8 @@ blogCreate.addEventListener('submit', function(event){
   if( blogTitle.value !== '' && textArea.value !== '') {
     obj.title = blogTitle.value;
     obj.body = textArea.value;
-
-
-
     storeItems.push(obj);
     console.log(storeItems);
-  
     populateListDisplay(storeItems, ListDisplayArea);
     localStorage.setItem('storeItems', JSON.stringify(storeItems));
   }
@@ -64,18 +57,12 @@ blogCreate.addEventListener('submit', function(event){
 
 
 blogEdit.addEventListener('submit', function(event){
+
   if(currentDiv === true  && editTitle.value !== '' && editTextArea.value !== '') {
-
-    console.log(currentDiv)
-    console.log(newIndex)
-
     const storageElement = JSON.parse(localStorage.getItem('storeItems'));
-    console.log(storageElement);
     storageElement[`${newIndex}`].title = editTitle.value;
     storageElement[`${newIndex}`].body = editTextArea.value;
-
     localStorage.setItem('storeItems', JSON.stringify(storageElement));
-
     populateListDisplay(storeItems, ListDisplayArea);
   }
   else {
@@ -95,12 +82,9 @@ function postDelete(index) {
   storageElements.splice(index, 1);
   if(storageElements.length){
     localStorage.setItem('storeItems', JSON.stringify(storageElements));
-
-    populateListDisplay(storeItems, ListDisplayArea);
-    
+    populateListDisplay(storeItems, ListDisplayArea); 
   }
   if (!storageElements.length) {
-    console.log('sdrtfgyhjkl');
     delete window.localStorage.storeItems;
 
     populateListDisplay(storeItems, ListDisplayArea);    
@@ -155,7 +139,6 @@ function populateDisplay(index){
 
   displayArea.innerHTML = 
   `
-
     <h1 class = 'blog-heading'>
       ${display.title}
     </h1>
@@ -163,13 +146,12 @@ function populateDisplay(index){
     <p class = 'blog-content'>
       ${display.body}
     </p>
-    <button onClick="previous(${index})" id="previous-button">Previous</button>
-    <button onClick="next(${index})" id="next-button">Next</button>
+    <a href="#" onClick="previous(${index})" id="previous-button">Previous</a>
+    <a href="#" onClick="next(${index})" id="next-button">Next</a>
     `
   pageStatus = true;
   pageNumber = index;
  
-  return
 }
 
 
@@ -185,7 +167,6 @@ function editPost(index){
   editTextArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
   currentDiv = true;
   newIndex = index;
-  return
 } 
 
 
@@ -196,18 +177,27 @@ function editPost(index){
 */
 
 
-function next(index){
+function next(index, divName){
 
+  storage = JSON.parse(localStorage.getItem('storeItems'))
+  
+  if(storage.length-1 === index) {
+    const element = document.querySelector('#next-button');
+    element.classList.add("hide-div")
+  }
+
+  if(index === 1) {
+    const element = document.querySelector('#previous-button');
+    element.classList.add("show-div")
+  }
+  
   if(pageStatus === true) {
     pageIndex = index + 1;
-    console.log(pageStatus);
-    console.log(pageNumber);
-
     populateDisplay(pageIndex);
     console.log(pageNumber);
   }
-  pageNumber = index +1;
-  return
+  
+  pageNumber = index +1; 
 }
 
 
@@ -220,7 +210,18 @@ function next(index){
 
 function previous(index){
   
+  storage = JSON.parse(localStorage.getItem('storeItems'))
   
+  if(index === 0) {
+    const element = document.querySelector('#previous-button');
+    element.classList.add("hide-div")
+  }
+
+  if(storage.length-1 >= index && index !== 0) {
+    const element = document.querySelector('#next-button');
+    element.classList.add("show-div")
+  }
+
   if(pageStatus === true) {
     pageIndex = index-1;
     console.log(pageStatus);
@@ -230,8 +231,6 @@ function previous(index){
     console.log(pageNumber);
   }
   pageNumber = index-1;
-
-  return
 }
 
 /*
@@ -243,7 +242,6 @@ function previous(index){
 
 function refreshPage() {
   
-  // window.parent.location = window.parent.location.href;
   window.location.reload();
 }
 
