@@ -29,7 +29,6 @@ let pageNumber = 0;
 
 
 blogCreate.addEventListener('submit', function(event){
-
   event.preventDefault()
   const obj = 
   {title: '', 
