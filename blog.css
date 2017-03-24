@@ -383,6 +383,10 @@ h5 {
   input[type="submit"] {
     margin-left: 550px; 
   }
+
+  #next-button {
+  margin-left: 450px;
+}
 }
 
 @media only screen and (max-width: 1245px) {
@@ -418,6 +422,10 @@ h5 {
   #nav a {
     padding: 6px 5px 6px 0px;
   }
+
+  #next-button {
+  margin-left: 500px;
+}
 }
     
 @media only screen and (max-width: 1078px) {
@@ -492,4 +500,53 @@ h5 {
   input[type="submit"] {
     margin-left: 550px; 
   }
+}
+
+@media only screen and (max-width: 797px) {
+  body{
+    font-size: 12px;
+  }
+  
+  #post-head {
+    margin-left: 370px;
+  }
+
+  #header {
+    width: 100%;
+  }
+
+  #inner-header {
+    width: 100%;
+  }
+
+  #all-black {
+    font-size: 12px;
+    margin-top: 16px;
+    margin-left: -15px;
+    font-weight: normal;
+  }
+
+  #motto {
+    margin-left: 0px;
+  }
+
+  #container {
+    max-width: 100%;
+  }
+
+  #nav li { 
+    margin-left: 90px;
+  }
+
+  #nav a {
+    padding: 6px 5px 6px 0px;
+  }
+ 
+  input[type="submit"] {
+    margin-left: 350px; 
+  }
+
+  #next-button {
+  margin-left: 350px;
+}
 }
