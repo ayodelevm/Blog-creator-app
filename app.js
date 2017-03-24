@@ -20,6 +20,7 @@ let newIndex = 0;
 let pageStatus = false;
 let pageNumber = 0;
 
+
 /*
 =======================================================================================================
 == function for creating blog post                                                                   ==
@@ -33,14 +34,15 @@ blogCreate.addEventListener('submit', function(event){
   console.log('hello')
   const obj = 
   {title: '', 
-  body: ''
+  body: '',
+  date: ''
   };
   
   if( blogTitle.value !== '' && textArea.value !== '') {
     obj.title = blogTitle.value;
     obj.body = textArea.value;
-    storeItems.push(obj);
-    console.log(storeItems);
+    obj.date = currentDate();
+    storeItems.push(obj);  
     populateListDisplay(storeItems, ListDisplayArea);
     localStorage.setItem('storeItems', JSON.stringify(storeItems));
   }
@@ -57,9 +59,9 @@ blogCreate.addEventListener('submit', function(event){
 
 
 blogEdit.addEventListener('submit', function(event){
-
   if(currentDiv === true  && editTitle.value !== '' && editTextArea.value !== '') {
     const storageElement = JSON.parse(localStorage.getItem('storeItems'));
+    console.log(storageElement);
     storageElement[`${newIndex}`].title = editTitle.value;
     storageElement[`${newIndex}`].body = editTextArea.value;
     localStorage.setItem('storeItems', JSON.stringify(storageElement));
@@ -82,14 +84,12 @@ function postDelete(index) {
   storageElements.splice(index, 1);
   if(storageElements.length){
     localStorage.setItem('storeItems', JSON.stringify(storageElements));
-    populateListDisplay(storeItems, ListDisplayArea); 
+    populateListDisplay(storeItems, ListDisplayArea);
   }
   if (!storageElements.length) {
     delete window.localStorage.storeItems;
-
     populateListDisplay(storeItems, ListDisplayArea);    
   }
-  
 }
 
 
@@ -112,14 +112,16 @@ function populateListDisplay(display = [], displayParagraph){
       <h1 class = 'blog-heading'>
         ${item.title}
       </h1>
+      <h5>
+      ${item.date}
+      </h5>
 
-      <p class = 'blog-content'>
+      <p class = 'blog-content' id="content">
         ${item.body}
       </p>
     <a href="#" onClick="populateDisplay(${index}); showDiv('#display');" id= "read-more">Read more...</a>
     `
   }).join('');
-
 }
 
 
@@ -131,17 +133,18 @@ function populateListDisplay(display = [], displayParagraph){
 
 
 function populateDisplay(index){
-
   if(!JSON.parse(localStorage.getItem('storeItems')) || !JSON.parse(localStorage.getItem('storeItems')).length){
     return;
   }
   display = JSON.parse(localStorage.getItem('storeItems'))[`${index}`];
-
   displayArea.innerHTML = 
   `
     <h1 class = 'blog-heading'>
       ${display.title}
     </h1>
+    <h5>
+      ${display.date}
+    </h5>
     
     <p class = 'blog-content'>
       ${display.body}
@@ -151,7 +154,6 @@ function populateDisplay(index){
     `
   pageStatus = true;
   pageNumber = index;
- 
 }
 
 
@@ -162,7 +164,6 @@ function populateDisplay(index){
 */
 
 function editPost(index){
-
   editTitle.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].title;
   editTextArea.value = JSON.parse(localStorage.getItem('storeItems'))[`${index}`].body;
   currentDiv = true;
@@ -178,26 +179,20 @@ function editPost(index){
 
 
 function next(index, divName){
-
   storage = JSON.parse(localStorage.getItem('storeItems'))
-  
   if(storage.length-1 === index) {
     const element = document.querySelector('#next-button');
     element.classList.add("hide-div")
   }
-
   if(index === 1) {
     const element = document.querySelector('#previous-button');
     element.classList.add("show-div")
   }
-  
   if(pageStatus === true) {
     pageIndex = index + 1;
     populateDisplay(pageIndex);
-    console.log(pageNumber);
   }
-  
-  pageNumber = index +1; 
+  pageNumber = index +1;
 }
 
 
@@ -208,27 +203,19 @@ function next(index, divName){
 */
 
 
-function previous(index){
-  
+function previous(index){ 
   storage = JSON.parse(localStorage.getItem('storeItems'))
-  
   if(index === 0) {
     const element = document.querySelector('#previous-button');
     element.classList.add("hide-div")
   }
-
   if(storage.length-1 >= index && index !== 0) {
     const element = document.querySelector('#next-button');
     element.classList.add("show-div")
   }
-
   if(pageStatus === true) {
     pageIndex = index-1;
-    console.log(pageStatus);
-    console.log(pageNumber);
-
     populateDisplay(pageIndex)
-    console.log(pageNumber);
   }
   pageNumber = index-1;
 }
@@ -241,17 +228,23 @@ function previous(index){
 
 
 function refreshPage() {
-  
   window.location.reload();
 }
 
 
+/*
+=======================================================================================================
+== function to retrieve current date                                                                 ==
+=======================================================================================================
+*/
+
 function currentDate() {
   var today = new Date();
+  var time = today.getHours() + ":" + today.getMinutes()
   var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  return date
+  var dateTime = date+' ' + ' | ' + ' '+time;
+  return dateTime
 }
-
 
 
 /*
@@ -283,4 +276,21 @@ function showDiv(divName) {
   elem.classList.add("show-div");
 }
 
+/*
+=======================================================================================================
+== function to enable sticky navbar on scroll                                                        ==
+=======================================================================================================
+*/
+
+const nav = document.querySelector('#nav');
+const navTop = nav.offsetTop;
+
+function fixNav() {
+  if(window.scrollY >= 250) {
+    nav.classList.add('sticky')
+  } else {
+    nav.classList.remove('sticky')    
+  }   
+}
+window.addEventListener('scroll', fixNav)
 
