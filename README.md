@@ -38,3 +38,7 @@ cd week-two-project
 
 - [github pages]()
 
+### NOTE
+
+- posts you create are stored in your local storage (browser) and cannot be assessed by anyone without access to the system you used in creating it.
+
