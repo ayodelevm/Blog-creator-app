@@ -1,4 +1,4 @@
-// alert('hello');
+// function for blog
 
 const blogCreate = document.getElementById('form-create');
 const blogEdit = document.getElementById('form-edit');
