@@ -1,4 +1,4 @@
-# Cycle XX Project: Blog (Front End)
+# Blog Creator App (Front End)
 
 This is a front end app that enable users to create blog posts, edit blog posts, preview blog posts, delete blog posts and save blog posts to local storage.
 
