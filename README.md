@@ -8,7 +8,7 @@ This is a front end app that enable users to create blog posts, edit blog posts,
 |---|---|
 |  app.js/ | javaScript file defining the various functions performed by blog |
 |  blog.css/ | Style sheet containing the blog styling features  |
-|  index.html/ | Cotains html code, defining structure |
+|  index.html/ | Contains html code, defining structure |
 |  README.md | gives information on the app  |
 
 
@@ -22,7 +22,7 @@ The following packages must be installed before running the service:
 
 ### Installation
 
-After cloning the [repository](https://github.com/ayodelevm/week-two-project.git):
+After cloning the [repository](https://github.com/ayodelevm/Blog-creator-app.git):
 
 - Go to the root of the directory by running:
 ```
