@@ -59,7 +59,6 @@ blogCreate.addEventListener('submit', function(event){
 blogEdit.addEventListener('submit', function(event){
   if(currentDiv === true  && editTitle.value !== '' && editTextArea.value !== '') {
     const storageElement = JSON.parse(localStorage.getItem('storeItems'));
-    console.log(storageElement);
     storageElement[`${newIndex}`].title = editTitle.value;
     storageElement[`${newIndex}`].body = editTextArea.value;
     localStorage.setItem('storeItems', JSON.stringify(storageElement));
