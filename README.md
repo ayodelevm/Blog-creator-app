@@ -36,7 +36,7 @@ cd week-two-project
 
 ### To Use the Hosted Version, Visit:
 
-- [github pages](https://ayodelevm.github.io/Blog-creator-app/)
+- [github pages](https://ayodelevm.github.io/Frontend-Blog-creator-app/)
 
 ### CONTRIBUTOR
 
